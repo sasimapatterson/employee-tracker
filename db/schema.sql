@@ -1,8 +1,10 @@
 DROP DATABASE IF EXISTS employees_db;
+-- Create file
 CREATE DATABASE employees_db; 
 
 USE employees_db;
 
+-- Create tables for each categories
 CREATE TABLE department (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL
@@ -29,4 +31,7 @@ CREATE TABLE employee (
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
 
-
+-- 
+SELECT * FROM employee;
+SELECT * FROM department;
+SELECT * FROM roles;

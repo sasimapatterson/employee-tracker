@@ -1,4 +1,4 @@
-USE employees;
+USE employees_db;
 
 INSERT INTO department (name)
 VALUES 
@@ -7,7 +7,7 @@ VALUES
     ("Engineering"),
     ("Legal");
 
-INSERT INTO role (title, salary, department_id)
+INSERT INTO emp_role (title, salary, department_id)
 VALUES
     ("Account Executive", 100000, 1),
     ("Sale Representativ", 80000, 1),
@@ -18,7 +18,7 @@ VALUES
     ("Lawyer", 200000, 4),
     ("Paralegal", 100000, 4);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (first_name, last_name, emp_role_id, manager_id)
 VALUES
     ("Mark", "Happy", 1, NULL),
     ("Sally", "Turner", 2, 1),
@@ -29,5 +29,5 @@ VALUES
     ("Sasi", "Hatter", 7, NULL),
     ("Andrew", "Mason", 8, 7);
 
-    
+
 

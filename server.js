@@ -1,8 +1,8 @@
-const { ADDRGETNETWORKPARAMS } = require('dns');
+// const { ADDRGETNETWORKPARAMS } = require('dns');
 const inquirer = require('inquirer');
 // Import and require mysql12.
 const mysql = require('mysql2');
-const { allowedNodeEnvironmentFlags } = require('process');
+// const { allowedNodeEnvironmentFlags } = require('process');
 
 // Connect to database.
 const connection = mysql.createConnection({
@@ -12,13 +12,13 @@ const connection = mysql.createConnection({
     database: "employees_db"
 });
 
-connection.connect(function(err) {
-    if(err) throw err;
+connection.connect(function (err) {
+    if (err) throw err;
 });
 
 // Start the application using switch case.
 const init = () => {
-    inquirer.prompt ([
+    inquirer.prompt([
         {
             type: 'list',
             message: 'What would you like to do?',
@@ -35,7 +35,7 @@ const init = () => {
             ]
         }
     ]).then(response => {
-        switch(response.option) {
+        switch (response.option) {
             case 'View all departments':
                 viewAllDepts()
                 break;
@@ -65,5 +65,23 @@ const init = () => {
 
 // View All Departments
 const viewAllDepts = () => {
-    connection.query('SELECT employee')
+    connection.query(`SELECT department.id AS ID, name AS Department
+    FROM department;`, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        init();
+    });
+}
+
+// View All Roles
+const viewAllRoles = () => {
+    connection.query(`SELECT roles.id AS ID, roles.title AS Title, roles.salary AS Salary, department.name AS Department 
+    FROM roles
+    LEFT JOIN department 
+    ON department.id = roles.department_id;`,
+        (err, res) => {
+            if (err) throw err;
+            console.log(res);
+            init();
+        });
 }

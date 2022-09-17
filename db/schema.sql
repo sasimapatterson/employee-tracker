@@ -7,8 +7,7 @@ USE employees_db;
 -- Create tables for each categories
 CREATE TABLE department (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    dept_name VARCHAR(30) NOT NULL
-    
+    name VARCHAR(30) NOT NULL   
 ); 
 
 CREATE TABLE roles (

@@ -9,5 +9,16 @@
   "dependencies": {
     "inquirer": "^9.1.1",
     "mysql2": "^2.3.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sasimapatterson/employee-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sasimapatterson/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/sasimapatterson/employee-tracker#readme"
 }

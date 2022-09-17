@@ -5,11 +5,11 @@ USE employees_db;
 
 CREATE TABLE department (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) NOT NULL
     
 ); 
 
-CREATE TABLE emp_role (
+CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
@@ -23,10 +23,10 @@ CREATE TABLE employee (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    emp_role_id INT NOT NULL,
-    FOREIGN KEY (emp_role_id) REFERENCES emp_role(id) ON DELETE CASCADE,
+    roles_id INT,
+    FOREIGN KEY (roles_id) REFERENCES roles(id),
     manager_id INT,
-    FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE CASCADE, 
+    FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
 
 

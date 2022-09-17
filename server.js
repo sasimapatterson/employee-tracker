@@ -37,7 +37,7 @@ const init = () => {
     ]).then(response => {
         switch(response.option) {
             case 'View all departments':
-                viewAllDept()
+                viewAllDepts()
                 break;
             case 'View all roles':
                 viewAllRoles()
@@ -64,3 +64,6 @@ const init = () => {
 }
 
 // View All Departments
+const viewAllDepts = () => {
+    connection.query('SELECT employee')
+}

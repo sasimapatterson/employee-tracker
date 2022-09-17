@@ -24,8 +24,8 @@ VALUES
     ("Sally", "Turner", 2, 1),
     ("Tim", "Hoffman", 3, NULL),
     ("Rachael", "Kindheart", 4, 3),
-    ("Keith", "Patter", 5, 6),
-    ("Tara", "Patter", 6, NULL),
+    ("Tara", "Patter", 5, NULL),
+    ("Keith", "Patter", 6, 5),
     ("Sasi", "Hatter", 7, NULL),
     ("Andrew", "Mason", 8, 7);
 

@@ -40,33 +40,33 @@ function init() {
                 'Exit',
             ],
         }]).then(response => {
-        // console.log(response);
-        switch (response.option) {
-            case 'View all departments':
-                viewAllDepts()
-                break;
-            case 'View all roles':
-                viewAllRoles()
-                break;
-            case 'View all employees':
-                viewAllEmps()
-                break;
-            case 'Add a department':
-                addDept()
-                break;
-            case 'Add a role':
-                addRole()
-                break;
-            case 'Add an Employee':
-                addEmp()
-                break;
-            case 'Update employee role':
-                updateEmpRole()
-                break;
-            case 'Exit':
-                connection.end();
-        }
-    })
+            // console.log(response);
+            switch (response.option) {
+                case 'View all departments':
+                    viewAllDepts()
+                    break;
+                case 'View all roles':
+                    viewAllRoles()
+                    break;
+                case 'View all employees':
+                    viewAllEmps()
+                    break;
+                case 'Add a department':
+                    addDept()
+                    break;
+                case 'Add a role':
+                    addRole()
+                    break;
+                case 'Add an Employee':
+                    addEmp()
+                    break;
+                case 'Update employee role':
+                    updateEmpRole()
+                    break;
+                case 'Exit':
+                    connection.end();
+            }
+        })
 }
 
 init();
@@ -86,6 +86,21 @@ function viewAllRoles() {
     FROM roles
     LEFT JOIN department 
     ON department.id = roles.department_id;`,
+        (err, res) => {
+            if (err) throw err;
+            console.table(res);
+            init();
+        });
+}
+
+// View All Employees
+function viewAllEmps() {
+    connection.query(`SELECT employee.id AS ID, employee.first_name AS FirstName, employee.last_name AS LastName, roles.title AS Title, 
+    department.name AS Department, roles.salary AS Salary, CONCAT (manager.first_name, ' ', manager.last_name) AS Manager
+    FROM employee
+    LEFT JOIN roles ON employee.roles_id = roles.id 
+    LEFT JOIN department ON roles.department_id = department.id
+    LEFT JOIN employee manager ON employee.manager_id = manager.id;`,
         (err, res) => {
             if (err) throw err;
             console.table(res);

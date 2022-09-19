@@ -10,7 +10,7 @@ VALUES
 INSERT INTO roles (title, salary, department_id)
 VALUES
     ("Account Executive", 100000, 1),
-    ("Sale Representativ", 80000, 1),
+    ("Sale Representative", 80000, 1),
     ("Controller", 120000, 2),
     ("Accountant", 80000, 2),
     ("Software Engineer", 120000, 3),

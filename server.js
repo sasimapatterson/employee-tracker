@@ -124,9 +124,9 @@ function addDept() {
         }
     ).then((response) => {
         connection.query(`INSERT INTO department SET ?`,
-        {
-            name: response.newDept,
-        },
+            {
+                name: response.newDept,
+            },
             (err) => {
                 if (err) throw err;
                 console.log(`Added ${response.newDept} successfully.`);
@@ -140,7 +140,7 @@ function addRole() {
     inquirer.prompt([
         {
             type: 'input',
-            message: "Please enter the employee's title",
+            message: "Please enter the role of the employee.",
             name: 'title'
         },
         {
@@ -150,8 +150,9 @@ function addRole() {
         },
         {
             type: 'input',
-            message: "Please enter the department's Id",
-            name: 'department'
+            message: "Please enter the department ID for this role.",
+            name: 'department',
+          
         },
     ]).then((response) => {
         connection.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`, [response.title, response.salary, response.department],
@@ -178,14 +179,45 @@ function addEmp() {
         },
         {
             type: 'input',
-            message: "Please enter employee's role",
+            message: "Please enter the ID that associate with the role",
             name: 'role'
         },
         {
             type: 'input',
-            message: "Please enter manager's id",
+            message: "Please enter the manager's ID for the selected employee",
             name: 'managerId'
         },
+    ]).then((response) => {
+        connection.query(`INSERT INTO employee SET ?`, //(first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)`, [response.firstName, response.lastName, response.role, response.managerId],
+            {
+                first_name: response.firstName,
+                last_name: response.lastName,
+                roles_id: response.role,
+                manager_id: response.managerId,
+            },
+            (err) => {
+                if (err) throw err;
+                console.log('Successfully added.');
+                init();
+            });
+    });
+};
+
+// Update Employee Role.
+function updateEmpRole() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "Please enter an employee ID you wish to update.",
+            name: 'empId'
+        },
+        {
+            type: 'input',
+            message: "Please enter the ID associate with the role you wish to assign to the selected employee.",
+            name: 'roleId'
+        },
+        
+
     ]).then((response) => {
         connection.query(`INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)`, [response.firstName, response.lastName, response.role, response.managerId],
             (err, res) => {
@@ -193,9 +225,8 @@ function addEmp() {
                 console.table(res);
                 init();
             });
-    });
+    })
 }
-
 
 // Delete department.
 function deleteDept() {

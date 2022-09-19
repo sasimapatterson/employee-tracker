@@ -19,7 +19,7 @@ VALUES
     ("Paralegal", 100000, 4);
 
 INSERT INTO employee (first_name, last_name, roles_id, manager_id)
-VALUES
+VALUES  
     ("Mark", "Happy", 1, NULL),
     ("Sally", "Turner", 2, 1),
     ("Tim", "Hoffman", 3, NULL),

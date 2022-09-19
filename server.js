@@ -39,6 +39,7 @@ function init() {
                 'Add an employee',
                 'Update employee role',
                 'Delete a department',
+                'Remove an employee',
                 'Exit',
             ],
         }]).then((response) => {
@@ -67,6 +68,9 @@ function init() {
                     break;
                 case 'Delete a department':
                     deleteDept()
+                    break;
+                case 'Remove an employee':
+                    deleteEmp()
                     break;
                 case 'Exit':
                     connection.end();
@@ -156,9 +160,9 @@ function addRole() {
         },
     ]).then((response) => {
         connection.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`, [response.title, response.salary, response.department],
-            (err, res) => {
+            (err) => {
                 if (err) throw err;
-                console.table(res);
+                console.log('The role is successfully added.');
                 init();
             });
     });
@@ -197,7 +201,7 @@ function addEmp() {
             },
             (err) => {
                 if (err) throw err;
-                console.log('Successfully added.');
+                console.log('The employee has been successfully added.');
                 init();
             });
     });
@@ -207,9 +211,20 @@ function addEmp() {
 function updateEmpRole() {
     inquirer.prompt([
         {
-            type: 'input',
-            message: "Please enter an employee ID you wish to update.",
-            name: 'empId'
+            type: 'list',
+            message: "Please select an employee you wish to update.",
+            name: 'empName',
+            choices: [
+                'Mark',
+                'Sally',
+                'Tim',
+                'Rachael',
+                'Tara',
+                'Keith',
+                'Sasi',
+                'Andrew',
+                'Keith',
+            ],
         },
         {
             type: 'input',
@@ -219,10 +234,10 @@ function updateEmpRole() {
         
 
     ]).then((response) => {
-        connection.query(`INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)`, [response.firstName, response.lastName, response.role, response.managerId],
-            (err, res) => {
+        connection.query(`INSERT INTO employee (first_name, roles_id) VALUES (?, ?)`, [response.firstName, response.role],
+            (err) => {
                 if (err) throw err;
-                console.table(res);
+                console.log('The employee role is successfully added');
                 init();
             });
     })
@@ -237,7 +252,7 @@ function deleteDept() {
             name: 'remvDept'
         }
     ]).then((response) => {
-        connection.query(`DELETE FROM department WHERE id = ?`, [response.remvDept], (err, res) => {
+        connection.query(`DELETE FROM department WHERE id = ?`, [response.remvDept], (err) => {
             if (err) throw err;
             console.log("Successfully deleted");
 
@@ -250,6 +265,24 @@ function deleteDept() {
     });
 }
 
+function deleteEmp() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "Please enter the ID of the employee you wish to remove from the database",
+            name: 'empId'
+        }
+    ]).then((response) => {
+        connection.query(`DELETE FROM employee WHERE id = ?`, [response.empId], (err) => {
+            if (err) throw err;
+            console.log("Successfully deleted");
 
-
+            connection.query(`SELECT * FROM department`, (err, res) => {
+                if (err) throw err;
+                console.table(res);
+                init();
+            });
+        });
+    });
+}
 

@@ -38,6 +38,7 @@ function init() {
                 'Add a role',
                 'Add an employee',
                 'Update employee role',
+                'Delete a department',
                 'Exit',
             ],
         }]).then(response => {
@@ -63,6 +64,9 @@ function init() {
                     break;
                 case 'Update employee role':
                     updateEmpRole()
+                    break;
+                case 'Delete department':
+                    deleteDept()
                     break;
                 case 'Exit':
                     connection.end();
@@ -111,15 +115,15 @@ function viewAllEmps() {
 
 // Add Department. Prompt for name of the department.
 function addDept() {
-    inquirer.prompt({
-        type: 'input',
-        message: 'Please enter the name of the new department',
-        name: 'newDept'
-    }).then(response => {
-        // To capture the value of the department's name that will be added into the database.
-        const newDepartment = response.newDept;
+    inquirer.prompt([
 
-        connection.query(`INSERT INTO department (name) VALUES ("${newDepartment}")`,
+        {
+            type: 'input',
+            message: 'Please enter the name of the new department',
+            name: 'newDept'
+        }
+    ]).then(response => {
+        connection.query(`INSERT INTO department (name) VALUES ("${response.newDept}")`,
             (err, res) => {
                 if (err) throw err;
                 console.table(res);
@@ -130,7 +134,7 @@ function addDept() {
 
 // Add Role. Prompt for employee's title, salary and department for the role.
 function addRole() {
-    inquirer.prompt([ 
+    inquirer.prompt([
         {
             type: 'input',
             message: "Please enter the employee's title",
@@ -146,12 +150,8 @@ function addRole() {
             message: 'Please enter the name of the department',
             name: 'department'
         },
-    ]).then (response => {
-        const empNewRole = response.title;
-        const newRoleSalary = response.salary;
-        const newRoleDept = response.department;
-
-        connection.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${empNewRole}", "${newRoleSalary}", "${newRoleDept}")`,
+    ]).then(response => {
+        connection.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`, [response.title, response.salary, response.department],
             (err, res) => {
                 if (err) throw err;
                 console.table(res);
@@ -162,7 +162,7 @@ function addRole() {
 
 // Add an employee. Prompt for employee's first and lastname, role and manager.
 function addEmp() {
-    inquirer.prompt ([
+    inquirer.prompt([
         {
             type: 'input',
             message: "Please enter employee's first name",
@@ -184,19 +184,38 @@ function addEmp() {
             name: 'managerId'
         },
     ]).then(response => {
-        const empFirstName = response.firstName;
-        const empLastName = response.lastName;
-        const empRole = response.role;
-        const empManager = response.managerId;
-
-        connection.query(`INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES ("${empFirstName}", "${empLastName}", "${empRole}", "${empManager}")`,
+        connection.query(`INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)`, [response.firstName, response.lastName, response.role, response.managerId],
             (err, res) => {
                 if (err) throw err;
                 console.table(res);
                 init();
             });
-    })
+    });
 }
+
+
+// Delete department.
+function deleteDept() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "Please enter the ID of the department you wish to be removed",
+            name: 'remvDept'
+        }
+    ]).then(response => {
+        connection.query(`DELETE FROM department WHERE id = ?`, [response.remvDept], (err, res) => {
+            if (err) throw err;
+            console.log("Successfully deleted");
+
+            connection.query(`SELECT * FROM department`, (err, res) => {
+                if (err) throw err;
+                console.table(res);
+                init();
+            });
+        });
+    });
+}
+
 
 
 

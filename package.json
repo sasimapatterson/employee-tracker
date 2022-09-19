@@ -4,7 +4,7 @@
   "description": "backend app for tracking employee",
   "main": "server.js",
   "scripts": {
-    "start": "node index"
+    "start": "node server.js"
   },
   "dependencies": {
     "console.table": "^0.10.0",

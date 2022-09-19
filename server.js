@@ -41,7 +41,7 @@ function init() {
                 'Delete a department',
                 'Exit',
             ],
-        }]).then(response => {
+        }]).then((response) => {
             // console.log(response);
             switch (response.option) {
                 case 'View all departments':
@@ -59,13 +59,13 @@ function init() {
                 case 'Add a role':
                     addRole()
                     break;
-                case 'Add an Employee':
+                case 'Add an employee':
                     addEmp()
                     break;
                 case 'Update employee role':
                     updateEmpRole()
                     break;
-                case 'Delete department':
+                case 'Delete a department':
                     deleteDept()
                     break;
                 case 'Exit':
@@ -115,18 +115,21 @@ function viewAllEmps() {
 
 // Add Department. Prompt for name of the department.
 function addDept() {
-    inquirer.prompt([
+    inquirer.prompt(
 
         {
             type: 'input',
             message: 'Please enter the name of the new department',
             name: 'newDept'
         }
-    ]).then(response => {
-        connection.query(`INSERT INTO department (name) VALUES ("${response.newDept}")`,
-            (err, res) => {
+    ).then((response) => {
+        connection.query(`INSERT INTO department SET ?`,
+        {
+            name: response.newDept,
+        },
+            (err) => {
                 if (err) throw err;
-                console.table(res);
+                console.log(`Added ${response.newDept} successfully.`);
                 init();
             });
     });
@@ -147,10 +150,10 @@ function addRole() {
         },
         {
             type: 'input',
-            message: 'Please enter the name of the department',
+            message: "Please enter the department's Id",
             name: 'department'
         },
-    ]).then(response => {
+    ]).then((response) => {
         connection.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`, [response.title, response.salary, response.department],
             (err, res) => {
                 if (err) throw err;
@@ -183,7 +186,7 @@ function addEmp() {
             message: "Please enter manager's id",
             name: 'managerId'
         },
-    ]).then(response => {
+    ]).then((response) => {
         connection.query(`INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)`, [response.firstName, response.lastName, response.role, response.managerId],
             (err, res) => {
                 if (err) throw err;
@@ -202,7 +205,7 @@ function deleteDept() {
             message: "Please enter the ID of the department you wish to be removed",
             name: 'remvDept'
         }
-    ]).then(response => {
+    ]).then((response) => {
         connection.query(`DELETE FROM department WHERE id = ?`, [response.remvDept], (err, res) => {
             if (err) throw err;
             console.log("Successfully deleted");

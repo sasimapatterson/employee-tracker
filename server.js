@@ -213,7 +213,7 @@ function updateEmpRole() {
         {
             type: 'list',
             message: "Please select an employee you wish to update.",
-            name: 'empName',
+            name: 'firstName',
             choices: [
                 'Mark',
                 'Sally',
@@ -223,7 +223,6 @@ function updateEmpRole() {
                 'Keith',
                 'Sasi',
                 'Andrew',
-                'Keith',
             ],
         },
         {
@@ -234,7 +233,7 @@ function updateEmpRole() {
         
 
     ]).then((response) => {
-        connection.query(`INSERT INTO employee (first_name, roles_id) VALUES (?, ?)`, [response.firstName, response.role],
+        connection.query(`INSERT INTO employee (first_name, roles_id) VALUES (?, ?)`, [response.firstName, response.roleId],
             (err) => {
                 if (err) throw err;
                 console.log('The employee role is successfully added');

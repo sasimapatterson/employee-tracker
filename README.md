@@ -1,5 +1,5 @@
 # Employee Tracker
-
+Command-line application to manage a company's database.
 
 ## Table of Centents
 1. [Descriptions](#descriptions) 
@@ -9,6 +9,8 @@
 5. [Link](#link)
 
 ## Descriptions
+
+The Employee Tracker application allows the users to view, add, delete and update the company's database. This interfaces are called 'content management systems (CMS). Developer uses MySQL to create and generate the database then connect the database to the system using JavaScript and execute it using node.js.
 
 ## Installations
 
@@ -45,7 +47,7 @@ To access schema.sql (where the database structures are created).
   source schema.sql;
 ```
 
-To access seeds.sql (where the database are generated to match the structure in schema.sql).
+To access seeds.sql (where the database are generated to match the structures in schema.sql).
 ```pip
   source seed.sql;
 ```
@@ -60,8 +62,18 @@ Once the application starts users will be presented with the list of options. Ea
 This Employee Tracker application offers the following options:
  * View all Departments, View all Employees, View all Roles.
  * Add a Department, Add a Role, Add an Employee.
- * Update Employee Role, Delete a Department and Remove an Employee.
+ * Update Employee Role, Delete a Department and Remove an Employee from the database.
 
 ![employee-tracker-app](./images/employee-tracker-node.png)
+
+## Contributing
+
+My instructor Mr.Anthony Cooper and Slack Learning Support Team.
+
+## Link
+
+You can click the following link for the walkthrough video of the Employee Tracker App.
+
+[Walkthrough Video](https://watch.screencastify.com/v/nrYzcG7IMf2ukKEz4dOy)
 
 

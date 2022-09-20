@@ -233,7 +233,7 @@ function updateEmpRole() {
         
 
     ]).then((response) => {
-        connection.query(`INSERT INTO employee (first_name, roles_id) VALUES (?, ?)`, [response.firstName, response.roleId],
+        connection.query(`UPDATE employee SET roles_id = ? WHERE first_name = ?`, [response.roleId, response.firstName],
             (err) => {
                 if (err) throw err;
                 console.log('The employee role is successfully added');

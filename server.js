@@ -1,6 +1,3 @@
-// const { ADDRGETNETWORKPARAMS } = require('dns');
-// const { allowedNodeEnvironmentFlags } = require('process');
-
 const inquirer = require('inquirer');
 // Import and require mysql12 to connect to MySQL database.
 const mysql = require('mysql2');
@@ -21,9 +18,7 @@ connection.connect(function (err) {
     init();
 });
 
-
-
-// // Start the application using switch case.
+// Start the application using switch case.
 function init() {
     inquirer.prompt([
         {
@@ -43,7 +38,6 @@ function init() {
                 'Exit',
             ],
         }]).then((response) => {
-            // console.log(response);
             switch (response.option) {
                 case 'View all departments':
                     viewAllDepts()
@@ -78,7 +72,6 @@ function init() {
         })
 }
 
-// init();
 // View All Departments
 function viewAllDepts() {
     connection.query(`SELECT department.id AS ID, name AS Department
@@ -156,7 +149,7 @@ function addRole() {
             type: 'input',
             message: "Please enter the department ID for this role.",
             name: 'department',
-          
+
         },
     ]).then((response) => {
         connection.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`, [response.title, response.salary, response.department],
@@ -192,7 +185,7 @@ function addEmp() {
             name: 'managerId'
         },
     ]).then((response) => {
-        connection.query(`INSERT INTO employee SET ?`, //(first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)`, [response.firstName, response.lastName, response.role, response.managerId],
+        connection.query(`INSERT INTO employee SET ?`,
             {
                 first_name: response.firstName,
                 last_name: response.lastName,
@@ -230,8 +223,6 @@ function updateEmpRole() {
             message: "Please enter the ID associate with the role you wish to assign to the selected employee.",
             name: 'roleId'
         },
-        
-
     ]).then((response) => {
         connection.query(`UPDATE employee SET roles_id = ? WHERE first_name = ?`, [response.roleId, response.firstName],
             (err) => {
@@ -249,7 +240,7 @@ function deleteDept() {
             type: 'input',
             message: "Please enter the ID of the department you wish to be removed",
             name: 'remvDept'
-        }
+        },
     ]).then((response) => {
         connection.query(`DELETE FROM department WHERE id = ?`, [response.remvDept], (err) => {
             if (err) throw err;
@@ -264,13 +255,14 @@ function deleteDept() {
     });
 }
 
+// Remove employee from database.
 function deleteEmp() {
     inquirer.prompt([
         {
             type: 'input',
             message: "Please enter the ID of the employee you wish to remove from the database",
             name: 'empId'
-        }
+        },
     ]).then((response) => {
         connection.query(`DELETE FROM employee WHERE id = ?`, [response.empId], (err) => {
             if (err) throw err;

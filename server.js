@@ -74,6 +74,7 @@ function init() {
 
 // View All Departments
 function viewAllDepts() {
+    // Query info of department id and department name from department table.
     connection.query(`SELECT department.id AS ID, name AS Department
     FROM department;`, (err, res) => {
         if (err) throw err;
@@ -84,6 +85,7 @@ function viewAllDepts() {
 
 // View All Roles
 function viewAllRoles() {
+    // Query info of role id, title, salary, department name from roles table.
     connection.query(`SELECT roles.id AS ID, roles.title AS Title, roles.salary AS Salary, department.name AS Department 
     FROM roles
     LEFT JOIN department 
@@ -97,6 +99,7 @@ function viewAllRoles() {
 
 // View All Employees
 function viewAllEmps() {
+    // Query info of employee id, employee first and lastname, title, department name, salary and manager name + lastname from employee table.
     connection.query(`SELECT employee.id AS ID, employee.first_name AS FirstName, employee.last_name AS LastName, roles.title AS Title, 
     department.name AS Department, roles.salary AS Salary, CONCAT (manager.first_name, ' ', manager.last_name) AS Manager
     FROM employee
@@ -120,6 +123,7 @@ function addDept() {
             name: 'newDept'
         }
     ).then((response) => {
+        // Add the input above (new department) into the database.
         connection.query(`INSERT INTO department SET ?`,
             {
                 name: response.newDept,
@@ -152,6 +156,7 @@ function addRole() {
 
         },
     ]).then((response) => {
+        // Add title, salary and department where the role belongs to into the database.
         connection.query(`INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`, [response.title, response.salary, response.department],
             (err) => {
                 if (err) throw err;
@@ -185,6 +190,7 @@ function addEmp() {
             name: 'managerId'
         },
     ]).then((response) => {
+        // Add employee first + lastname, role id and manager id to the database.
         connection.query(`INSERT INTO employee SET ?`,
             {
                 first_name: response.firstName,
@@ -224,6 +230,7 @@ function updateEmpRole() {
             name: 'roleId'
         },
     ]).then((response) => {
+        // Add the update of employee role into the database.
         connection.query(`UPDATE employee SET roles_id = ? WHERE first_name = ?`, [response.roleId, response.firstName],
             (err) => {
                 if (err) throw err;
@@ -242,10 +249,11 @@ function deleteDept() {
             name: 'remvDept'
         },
     ]).then((response) => {
+        // Query to the department table to select the department to be deleted by id. 
         connection.query(`DELETE FROM department WHERE id = ?`, [response.remvDept], (err) => {
             if (err) throw err;
             console.log("Successfully deleted");
-
+            // Display updated table after the department has been deleted.
             connection.query(`SELECT * FROM department`, (err, res) => {
                 if (err) throw err;
                 console.table(res);
@@ -264,10 +272,11 @@ function deleteEmp() {
             name: 'empId'
         },
     ]).then((response) => {
+        // Query to the employee table to select the employee by id to be removed. 
         connection.query(`DELETE FROM employee WHERE id = ?`, [response.empId], (err) => {
             if (err) throw err;
             console.log("Successfully deleted");
-
+            // Display updated table after the employee has been removed.
             connection.query(`SELECT * FROM department`, (err, res) => {
                 if (err) throw err;
                 console.table(res);
